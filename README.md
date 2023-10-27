@@ -1,0 +1,4 @@
+# Requiring Package
+
+- pygame
+- numpy
