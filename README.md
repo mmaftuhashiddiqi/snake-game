@@ -2,3 +2,6 @@
 
 - pygame
 - numpy
+- tkinter
+- customtkinter
+- bcrypt
