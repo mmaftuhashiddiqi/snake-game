@@ -44,7 +44,7 @@ class Arena():
       pygame.draw.line(self.surface, (0, 0, 0), (0, y), (self.arena_lebar, y))
   
   def render(self, tick):
-    self.surface.fill((255, 255, 255)) # biar putih ygy
+    self.surface.fill((0, 18, 32)) # biar biru ygy
     for obj in self.objects:
       obj.draw() # gambar objek-objeknya
 

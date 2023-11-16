@@ -2,7 +2,7 @@ import pygame
 
 class Kotak():
   
-  def __init__(self, arena, pos_awal, arah_x=0, arah_y=0, warna=(0, 0, 255), nama="kotak"):
+  def __init__(self, arena, pos_awal, arah_x=0, arah_y=0, warna=(0,150,93), nama="kotak"):
     self.nama = nama
     self.pos = pos_awal
     self.arah_x = arah_x # arah positif kanan

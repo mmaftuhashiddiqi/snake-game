@@ -6,7 +6,7 @@ class Uler():
   badan = [] # kumpulan objek dari kotak-kotak
   kumpulan_arah = {} # sikey = posisi, valuenya = arah pergeraan
 
-  def __init__(self, arena, start, arah_x=1, arah_y=0, warna=(0,0,255)):
+  def __init__(self, arena, start, arah_x=1, arah_y=0, warna=(0,150,93)):
     self.arena = arena
     self.start = start
     self.warna = warna
