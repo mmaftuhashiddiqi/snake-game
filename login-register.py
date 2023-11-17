@@ -20,33 +20,34 @@ font3 = ('Arial', 13, 'bold')
 font4 = ('Arial', 13, 'bold', 'underline')
 
 
-# database
-conn = sqlite3.connect('database/data.db')
-cursor = conn.cursor()
+class DBController:
 
-cursor.execute(
-  '''
-    CREATE TABLE IF NOT EXISTS users (
-      user_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      username TEXT NOT NULL,
-      password TEXT NOT NULL
-    )
-  '''
-)
+  conn = sqlite3.connect('database/data.db')
+  cursor = conn.cursor()
 
-cursor.execute(
-  '''
-    CREATE TABLE IF NOT EXISTS leaderboard (
-      leaderboard_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-      user_id INTEGER,
-      score INTEGER,
-      FOREIGN KEY (user_id) REFERENCES users(user_id)
-    )
-  '''
-)
+  cursor.execute(
+    '''
+      CREATE TABLE IF NOT EXISTS users (
+        user_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL,
+        password TEXT NOT NULL
+      )
+    '''
+  )
+
+  cursor.execute(
+    '''
+      CREATE TABLE IF NOT EXISTS leaderboard (
+        leaderboard_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        score INTEGER,
+        FOREIGN KEY (user_id) REFERENCES users(user_id)
+      )
+    '''
+  )
 
 
-class LoginAccount:
+class Authentication:
 
   def login_account(self):
     
@@ -54,8 +55,8 @@ class LoginAccount:
     password = password_entry.get()
     
     if username != '' and password != '':
-      cursor.execute('SELECT password FROM users WHERE username=?', [username])
-      result = cursor.fetchone()
+      DBController().cursor.execute('SELECT password FROM users WHERE username=?', [username])
+      result = DBController().cursor.fetchone()
       if result:
         if bcrypt.checkpw(password.encode('utf-8'), result[0]):
           messagebox.showinfo('Success', 'Logged in successfully.')
@@ -67,7 +68,6 @@ class LoginAccount:
     else:
       messagebox.showerror('Error', 'Enter all data.')
 
-class SignupAccount:
   def signup_account(self):
     
     username = username_entry2.get()
@@ -75,8 +75,8 @@ class SignupAccount:
     repeat_password = repeat_password_entry.get()
     
     if username != '' and password != '' and repeat_password != '':
-      cursor.execute('SELECT username FROM users WHERE username=?', [username])
-      if cursor.fetchone() is not None:
+      DBController().cursor.execute('SELECT username FROM users WHERE username=?', [username])
+      if DBController().cursor.fetchone() is not None:
         messagebox.showerror('Error', 'Username already axists.')
       elif password != repeat_password:
         messagebox.showerror('Error', 'Password and repeat password are not the same.')
@@ -84,13 +84,15 @@ class SignupAccount:
         encoded_password = password.encode('utf-8')
         hashed_password = bcrypt.hashpw(encoded_password, bcrypt.gensalt())
         # print(hashed_password)
-        cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashed_password])
-        conn.commit()
+        DBController().cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashed_password])
+        DBController().conn.commit()
         messagebox.showinfo('Success', 'Account has been created.')
     else:
       messagebox.showerror('Error', 'Enter all data.')
 
+
 class Login:
+
   def login(self):
     
     global frame1
@@ -116,17 +118,18 @@ class Login:
     password_entry = customtkinter.CTkEntry(frame1, font=font2, show='*', text_color='#fff', fg_color='#001a2e', bg_color='#121111', border_color='#004780', border_width=3, placeholder_text='Password', placeholder_text_color='#a3a3a3', width=200, height=50)
     password_entry.place(x=230, y=150)
 
-    login_button = customtkinter.CTkButton(frame1, command=LoginAccount().login_account(),font=font2, text_color='#fff', text='Login', fg_color='#00965d', hover_color='#006e44', bg_color='#121111', cursor='hand2', corner_radius=5, width=120)
+    login_button = customtkinter.CTkButton(frame1, command=Authentication().login_account,font=font2, text_color='#fff', text='Login', fg_color='#00965d', hover_color='#006e44', bg_color='#121111', cursor='hand2', corner_radius=5, width=120)
     login_button.place(x=230, y=220)
 
     signup_label = customtkinter.CTkLabel(frame1, font=font3, text="Don't have an account yet?", text_color='#fff', bg_color='#001220')
     signup_label.place(x=230, y=260)
 
-    signup_button = customtkinter.CTkButton(frame1, command=Signup().signup(), font=font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
+    signup_button = customtkinter.CTkButton(frame1, command=Signup().signup, font=font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
     signup_button.place(x=222, y=280)
 
 
 class Signup:
+
   def signup(self):
     
     global frame2
@@ -156,13 +159,13 @@ class Signup:
     repeat_password_entry = customtkinter.CTkEntry(frame2, font=font2, show='*', text_color='#fff', fg_color='#001a2e', bg_color='#121111', border_color='#004780', border_width=3, placeholder_text='Repeat password', placeholder_text_color='#a3a3a3', width=200, height=50)
     repeat_password_entry.place(x=230, y=220)
     
-    signup_button = customtkinter.CTkButton(frame2, command=SignupAccount().signup_account(), font=font2, text_color='#fff', text='Sign up', fg_color='#00965d', hover_color='#006e44', bg_color='#121111', cursor='hand2', corner_radius=5, width=120)
+    signup_button = customtkinter.CTkButton(frame2, command=Authentication().signup_account, font=font2, text_color='#fff', text='Sign up', fg_color='#00965d', hover_color='#006e44', bg_color='#121111', cursor='hand2', corner_radius=5, width=120)
     signup_button.place(x=230, y=290)
     
     login_label2 = customtkinter.CTkLabel(frame2, font=font3, text='Already have an account?', text_color='#fff', bg_color='#001220')
     login_label2.place(x=230, y=330)
     
-    login_button2 = customtkinter.CTkButton(frame2, command=Login().login(), font=font4, text_color='#00bf77', text='Login', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
+    login_button2 = customtkinter.CTkButton(frame2, command=Login().login, font=font4, text_color='#00bf77', text='Login', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
     login_button2.place(x=395, y=330)
 
 
@@ -183,13 +186,13 @@ username_entry.place(x=230, y=80)
 password_entry = customtkinter.CTkEntry(frame1, font=font2, show='*', text_color='#fff', fg_color='#001a2e', bg_color='#121111', border_color='#004780', border_width=3, placeholder_text='Password', placeholder_text_color='#a3a3a3', width=200, height=50)
 password_entry.place(x=230, y=150)
 
-login_button = customtkinter.CTkButton(frame1, command=LoginAccount().login_account(),font=font2, text_color='#fff', text='Login', fg_color='#00965d', hover_color='#006e44', bg_color='#121111', cursor='hand2', corner_radius=5, width=120)
+login_button = customtkinter.CTkButton(frame1, command=Authentication().login_account,font=font2, text_color='#fff', text='Login', fg_color='#00965d', hover_color='#006e44', bg_color='#121111', cursor='hand2', corner_radius=5, width=120)
 login_button.place(x=230, y=220)
 
 signup_label = customtkinter.CTkLabel(frame1, font=font3, text="Don't have an account yet?", text_color='#fff', bg_color='#001220')
 signup_label.place(x=230, y=260)
 
-signup_button = customtkinter.CTkButton(frame1, command=Signup().signup(), font=font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
+signup_button = customtkinter.CTkButton(frame1, command=Signup().signup, font=font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
 signup_button.place(x=222, y=280)
 
 
