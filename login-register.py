@@ -4,7 +4,7 @@ import bcrypt
 from tkinter import *
 from tkinter import messagebox
 from subprocess import run
-from sys import exit
+# from sys import exit
 
 
 # initiate the gui
@@ -46,7 +46,6 @@ def login_account():
       if bcrypt.checkpw(password.encode('utf-8'), result[0]):
         messagebox.showinfo('Success', 'Logged in successfully.')
         run(['python', 'main-menu.py'])
-        exit()
       else:
         messagebox.showerror('Error', 'Invalid password.')
     else:

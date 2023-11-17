@@ -1,6 +1,5 @@
 import customtkinter
 from tkinter import *
-from tkinter import messagebox
 from subprocess import run
 from sys import exit
 
@@ -22,7 +21,7 @@ def play_game():
   run(['python', 'game.py'])
 
 def leaderboard():
-  pass
+  run(['python', 'leaderboard.py'])
 
 
 # main menu page
