@@ -27,8 +27,20 @@ cursor = conn.cursor()
 cursor.execute(
   '''
   CREATE TABLE IF NOT EXISTS users (
+    user_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL,
     password TEXT NOT NULL
+  )
+  '''
+)
+
+cursor.execute(
+  '''
+  CREATE TABLE IF NOT EXISTS leaderboard (
+    leaderboard_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    score INTEGER,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
   )
   '''
 )
@@ -69,7 +81,7 @@ def signup_account():
       encoded_password = password.encode('utf-8')
       hashed_password = bcrypt.hashpw(encoded_password, bcrypt.gensalt())
       # print(hashed_password)
-      cursor.execute('INSERT INTO users VALUES (?, ?)', [username, hashed_password])
+      cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashed_password])
       conn.commit()
       messagebox.showinfo('Success', 'Account has been created.')
   else:
