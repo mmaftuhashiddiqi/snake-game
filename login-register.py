@@ -1,10 +1,14 @@
 import customtkinter
-import sqlite3
 import bcrypt
 from tkinter import *
 from tkinter import messagebox
 from subprocess import run
-# from sys import exit
+from Game import DBController
+
+
+database = DBController()
+conn = database.get_conn()
+cursor = database.get_cursor()
 
 
 # initiate the gui
@@ -20,33 +24,6 @@ font3 = ('Arial', 13, 'bold')
 font4 = ('Arial', 13, 'bold', 'underline')
 
 
-class DBController:
-
-  conn = sqlite3.connect('database/data.db')
-  cursor = conn.cursor()
-
-  cursor.execute(
-    '''
-      CREATE TABLE IF NOT EXISTS users (
-        user_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL,
-        password TEXT NOT NULL
-      )
-    '''
-  )
-
-  cursor.execute(
-    '''
-      CREATE TABLE IF NOT EXISTS leaderboard (
-        leaderboard_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        score INTEGER,
-        FOREIGN KEY (user_id) REFERENCES users(user_id)
-      )
-    '''
-  )
-
-
 class Authentication:
 
   def login_account(self):
@@ -55,8 +32,8 @@ class Authentication:
     password = password_entry.get()
     
     if username != '' and password != '':
-      DBController().cursor.execute('SELECT password FROM users WHERE username=?', [username])
-      result = DBController().cursor.fetchone()
+      cursor.execute('SELECT password FROM users WHERE username=?', [username])
+      result = cursor.fetchone()
       if result:
         if bcrypt.checkpw(password.encode('utf-8'), result[0]):
           messagebox.showinfo('Success', 'Logged in successfully.')
@@ -75,8 +52,8 @@ class Authentication:
     repeat_password = repeat_password_entry.get()
     
     if username != '' and password != '' and repeat_password != '':
-      DBController().cursor.execute('SELECT username FROM users WHERE username=?', [username])
-      if DBController().cursor.fetchone() is not None:
+      cursor.execute('SELECT username FROM users WHERE username=?', [username])
+      if cursor.fetchone() is not None:
         messagebox.showerror('Error', 'Username already axists.')
       elif password != repeat_password:
         messagebox.showerror('Error', 'Password and repeat password are not the same.')
@@ -84,8 +61,8 @@ class Authentication:
         encoded_password = password.encode('utf-8')
         hashed_password = bcrypt.hashpw(encoded_password, bcrypt.gensalt())
         # print(hashed_password)
-        DBController().cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashed_password])
-        DBController().conn.commit()
+        cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashed_password])
+        conn.commit()
         messagebox.showinfo('Success', 'Account has been created.')
     else:
       messagebox.showerror('Error', 'Enter all data.')
@@ -124,11 +101,11 @@ class Login:
     signup_label = customtkinter.CTkLabel(frame1, font=font3, text="Don't have an account yet?", text_color='#fff', bg_color='#001220')
     signup_label.place(x=230, y=260)
 
-    signup_button = customtkinter.CTkButton(frame1, command=Signup().signup, font=font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
+    signup_button = customtkinter.CTkButton(frame1, command=Register().signup, font=font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
     signup_button.place(x=222, y=280)
 
 
-class Signup:
+class Register:
 
   def signup(self):
     
@@ -192,7 +169,7 @@ login_button.place(x=230, y=220)
 signup_label = customtkinter.CTkLabel(frame1, font=font3, text="Don't have an account yet?", text_color='#fff', bg_color='#001220')
 signup_label.place(x=230, y=260)
 
-signup_button = customtkinter.CTkButton(frame1, command=Signup().signup, font=font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
+signup_button = customtkinter.CTkButton(frame1, command=Register().signup, font=font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
 signup_button.place(x=222, y=280)
 
 
