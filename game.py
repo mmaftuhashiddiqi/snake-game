@@ -56,8 +56,6 @@ while isRun:
     if score % 10 == 0:
       # adding tick
       tick += 1  
-    print(tick)
-    print(score)
 
   # render
   arena.render(tick) # bikin grid nyee yee, parameter for speed

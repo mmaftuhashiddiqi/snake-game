@@ -6,3 +6,5 @@ from .DBController import DBController as DBController
 from .Authentication import Authentication as Authentication
 from .Login import Login as Login
 from .Register import Register as Register
+from .Leaderboard import Leaderboard as Leaderboard
+from .MainMenu import MainMenu as MainMenu

@@ -8,7 +8,3 @@
 - customtkinter
 - bcrypt
 - sqlite3
-
-## To Do List
-
-- Refactor leaderboard.py menjadi oop (Leaderboard)
