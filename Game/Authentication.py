@@ -15,9 +15,11 @@ class Authentication:
     
     if username != '' and password != '':
       self.cursor.execute('SELECT password FROM users WHERE username=?', [username])
-      result = self.cursor.fetchone()
-      if result:
-        if bcrypt.checkpw(password.encode('utf-8'), result[0]):
+      password_result = self.cursor.fetchone()
+      if password_result:
+        if bcrypt.checkpw(password.encode('utf-8'), password_result[0]):
+          self.cursor.execute('UPDATE users SET login_status=1 WHERE username=?', [username])
+          self.conn.commit()
           messagebox.showinfo('Success', 'Logged in successfully.')
           run(['python', 'main-menu.py'])
         else:
@@ -39,6 +41,8 @@ class Authentication:
         encoded_password = password.encode('utf-8')
         hashed_password = bcrypt.hashpw(encoded_password, bcrypt.gensalt())
         self.cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashed_password])
+        self.conn.commit()
+        self.cursor.execute('INSERT INTO leaderboard (username) VALUES (?)', [username])
         self.conn.commit()
         messagebox.showinfo('Success', 'Account has been created.')
     else:

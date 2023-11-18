@@ -31,12 +31,12 @@ leaderboard_label = customtkinter.CTkLabel(frame, font=font1, text='Leaderboard'
 leaderboard_label.pack(pady=20)
 
 
-cursor.execute('SELECT * FROM users')
-result = cursor.fetchall()
+cursor.execute('SELECT * FROM leaderboard ORDER BY score DESC')
+leaderboard_result = cursor.fetchall()
 
 # looping for data dummies
-for i in range(len(result)):
-  customtkinter.CTkLabel(frame, text=f'{i+1}. {result[i][1]}: abcdefghij', fg_color='#001a2e', corner_radius=5).pack(pady=5, ipadx=70)
+for i in range(len(leaderboard_result)):
+  customtkinter.CTkLabel(frame, text=f'{i+1}. {leaderboard_result[i][1]}: {leaderboard_result[i][2]}', fg_color='#001a2e', corner_radius=5).pack(pady=5, ipadx=70)
 
 
 back_button = customtkinter.CTkButton(frame, command=exit, font=font4, text_color='#00bf77', text='<< back to main menu', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)

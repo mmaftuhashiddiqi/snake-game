@@ -11,10 +11,13 @@ database = DBController()
 conn = database.get_conn()
 cursor = database.get_cursor()
 
+cursor.execute('SELECT username FROM users WHERE login_status=1')
+user_active = cursor.fetchone()[0]
+
 # aplikasi sama renderring time
 isRun = True
 tick = 10
-banyak_mamam = 0
+score = 0
 
 # main loop
 while isRun:
@@ -30,12 +33,17 @@ while isRun:
     arena.reset_member()
     uler.reset()
     
-    # update score
+    cursor.execute('SELECT score FROM leaderboard WHERE username=?', [user_active])
+    high_score = cursor.fetchone()[0]
+
+    if high_score == None or score > high_score:
+      # update score
+      cursor.execute('UPDATE leaderboard SET score=? WHERE username=?', [score, user_active])
+      conn.commit()
     
-    
-    # reset tick & banyak mamam
+    # reset tick & score
     tick = 10
-    banyak_mamam = 0
+    score = 0
 
     # add mamam
     mamam = Mamam(arena, nama="mamam")
@@ -44,13 +52,12 @@ while isRun:
     uler.tambah_kotak()
     mamam.ubah_pos()
     # for speed incremet
-    banyak_mamam += 1
-    if banyak_mamam == 10:
+    score += 1
+    if score % 10 == 0:
       # adding tick
-      tick += 1
-      banyak_mamam = 0    
-    # print(tick)
-    # print(banyak_mamam)
+      tick += 1  
+    print(tick)
+    print(score)
 
   # render
   arena.render(tick) # bikin grid nyee yee, parameter for speed

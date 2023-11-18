@@ -12,7 +12,8 @@ class DBController:
         CREATE TABLE IF NOT EXISTS users (
           user_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
           username TEXT NOT NULL,
-          password TEXT NOT NULL
+          password TEXT NOT NULL,
+          login_status INT DEFAULT 0
         )
       '''
     )
@@ -21,9 +22,9 @@ class DBController:
       '''
         CREATE TABLE IF NOT EXISTS leaderboard (
           leaderboard_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-          user_id INTEGER,
+          username TEXT,
           score INTEGER,
-          FOREIGN KEY (user_id) REFERENCES users(user_id)
+          FOREIGN KEY (username) REFERENCES users(username)
         )
       '''
     )

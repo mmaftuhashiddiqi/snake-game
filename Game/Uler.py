@@ -55,8 +55,6 @@ class Uler():
     self.arah_y = 0
 
   def move (self):
-    # print
-    # print(self.kumpulan_arah)
     keys = pygame.key.get_pressed()
 
     # keys direction
@@ -76,10 +74,6 @@ class Uler():
       self.arah_y = 1
       self.arah_x = 0
       self.kumpulan_arah[self.kepala.pos] = [self.arah_x, self.arah_y]
-
-    # print
-    for pos in self.kumpulan_arah:
-      print(f"pos:{pos}, arah:{self.kumpulan_arah[pos]}\n")
 
     for index, kotak in enumerate(self.badan):
       pos_kotak = kotak.get_pos()
