@@ -6,12 +6,6 @@ from subprocess import run
 from Game import DBController
 
 
-database = DBController()
-conn = database.get_conn()
-cursor = database.get_cursor()
-
-
-# initiate the gui
 app = customtkinter.CTk()
 app.resizable(False, False)
 app.title('Snake Game Login & Register')
@@ -25,6 +19,12 @@ font4 = ('Arial', 13, 'bold', 'underline')
 
 
 class Authentication:
+  
+  def __init__(self):
+
+    self.database = DBController()
+    self.conn = self.database.get_conn()
+    self.cursor = self.database.get_cursor()
 
   def login_account(self):
     
@@ -32,8 +32,8 @@ class Authentication:
     password = password_entry.get()
     
     if username != '' and password != '':
-      cursor.execute('SELECT password FROM users WHERE username=?', [username])
-      result = cursor.fetchone()
+      self.cursor.execute('SELECT password FROM users WHERE username=?', [username])
+      result = self.cursor.fetchone()
       if result:
         if bcrypt.checkpw(password.encode('utf-8'), result[0]):
           messagebox.showinfo('Success', 'Logged in successfully.')
@@ -52,30 +52,34 @@ class Authentication:
     repeat_password = repeat_password_entry.get()
     
     if username != '' and password != '' and repeat_password != '':
-      cursor.execute('SELECT username FROM users WHERE username=?', [username])
-      if cursor.fetchone() is not None:
+      self.cursor.execute('SELECT username FROM users WHERE username=?', [username])
+      if self.cursor.fetchone() is not None:
         messagebox.showerror('Error', 'Username already axists.')
       elif password != repeat_password:
         messagebox.showerror('Error', 'Password and repeat password are not the same.')
       else:
         encoded_password = password.encode('utf-8')
         hashed_password = bcrypt.hashpw(encoded_password, bcrypt.gensalt())
-        # print(hashed_password)
-        cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashed_password])
-        conn.commit()
+        self.cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashed_password])
+        self.conn.commit()
         messagebox.showinfo('Success', 'Account has been created.')
     else:
       messagebox.showerror('Error', 'Enter all data.')
 
 
 class Login:
+  
+  def __init__(self, app):
+
+    self.app = app
+    self.auth = Authentication()
 
   def login(self):
     
     global frame1
 
     frame2.destroy()
-    frame1 = customtkinter.CTkFrame(app, bg_color='#001220', fg_color='#001220', width=470, height=400)
+    frame1 = customtkinter.CTkFrame(self.app, bg_color='#001220', fg_color='#001220', width=470, height=400)
     frame1.place(x=0, y=0)
     
     image1 = PhotoImage(file='img/bg2.png')
@@ -95,24 +99,29 @@ class Login:
     password_entry = customtkinter.CTkEntry(frame1, font=font2, show='*', text_color='#fff', fg_color='#001a2e', bg_color='#121111', border_color='#004780', border_width=3, placeholder_text='Password', placeholder_text_color='#a3a3a3', width=200, height=50)
     password_entry.place(x=230, y=150)
 
-    login_button = customtkinter.CTkButton(frame1, command=Authentication().login_account,font=font2, text_color='#fff', text='Login', fg_color='#00965d', hover_color='#006e44', bg_color='#121111', cursor='hand2', corner_radius=5, width=120)
+    login_button = customtkinter.CTkButton(frame1, command=self.auth.login_account,font=font2, text_color='#fff', text='Login', fg_color='#00965d', hover_color='#006e44', bg_color='#121111', cursor='hand2', corner_radius=5, width=120)
     login_button.place(x=230, y=220)
 
     signup_label = customtkinter.CTkLabel(frame1, font=font3, text="Don't have an account yet?", text_color='#fff', bg_color='#001220')
     signup_label.place(x=230, y=260)
 
-    signup_button = customtkinter.CTkButton(frame1, command=Register().signup, font=font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
+    signup_button = customtkinter.CTkButton(frame1, command=Register(app).signup, font=font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
     signup_button.place(x=222, y=280)
 
 
 class Register:
+  
+  def __init__(self, app):
+
+    self.app = app
+    self.auth = Authentication()
 
   def signup(self):
     
     global frame2
     
     frame1.destroy()
-    frame2 = customtkinter.CTkFrame(app, bg_color='#001220', fg_color='#001220', width=470, height=400)
+    frame2 = customtkinter.CTkFrame(self.app, bg_color='#001220', fg_color='#001220', width=470, height=400)
     frame2.place(x=0, y=0)
     
     image2 = PhotoImage(file='img/bg2.png')
@@ -142,11 +151,10 @@ class Register:
     login_label2 = customtkinter.CTkLabel(frame2, font=font3, text='Already have an account?', text_color='#fff', bg_color='#001220')
     login_label2.place(x=230, y=330)
     
-    login_button2 = customtkinter.CTkButton(frame2, command=Login().login, font=font4, text_color='#00bf77', text='Login', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
+    login_button2 = customtkinter.CTkButton(frame2, command=Login(app).login, font=font4, text_color='#00bf77', text='Login', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
     login_button2.place(x=395, y=330)
 
 
-# login page
 frame1 = customtkinter.CTkFrame(app, bg_color='#001220', fg_color='#001220', width=470, height=400)
 frame1.place(x=0, y=0)
 
@@ -169,7 +177,7 @@ login_button.place(x=230, y=220)
 signup_label = customtkinter.CTkLabel(frame1, font=font3, text="Don't have an account yet?", text_color='#fff', bg_color='#001220')
 signup_label.place(x=230, y=260)
 
-signup_button = customtkinter.CTkButton(frame1, command=Register().signup, font=font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
+signup_button = customtkinter.CTkButton(frame1, command=Register(app).signup, font=font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
 signup_button.place(x=222, y=280)
 
 

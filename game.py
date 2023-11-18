@@ -1,12 +1,15 @@
 import pygame
-from Game import Arena, Uler, Mamam
+from Game import Arena, Uler, Mamam, DBController
 
 # initialisasi game
-# arena
 arena = Arena(500, 500, 20, 20)
-# object game
 uler = Uler(arena, (10, 10), arah_x=1)
 mamam = Mamam(arena, nama="mamam")
+
+# database
+database = DBController()
+conn = database.get_conn()
+cursor = database.get_cursor()
 
 # aplikasi sama renderring time
 isRun = True
@@ -26,6 +29,10 @@ while isRun:
   if uler.is_collide():
     arena.reset_member()
     uler.reset()
+    
+    # update score
+    
+    
     # reset tick & banyak mamam
     tick = 10
     banyak_mamam = 0
