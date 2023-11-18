@@ -3,31 +3,30 @@ from numpy import random as rnd
 
 class Mamam():
   
-  def __init__(self, arena, warna=(255, 0, 0), nama="mamam"):
-    self.nama = nama
-    # mamam position
-    mamam_pos_x = rnd.randint(0, arena.get_jumlah_kolom() - 1)
-    mamam_pos_y = rnd.randint(0, arena.get_jumlah_baris() - 1)
-    self.pos = (mamam_pos_x, mamam_pos_y)
-    self.warna = warna
+  def __init__(self, arena, color=(255, 0, 0), name="mamam"):
+    self.name = name
+    food_pos_x = rnd.randint(0, arena.get_column_sum() - 1) # mamam position
+    food_pos_y = rnd.randint(0, arena.get_row_sum() - 1) # mamam position
+    self.pos = (food_pos_x, food_pos_y)
+    self.color = color
     self.surface = arena.get_surface()
-    self.lebar = arena.get_jarak_kolom()
-    self.tinggi = arena.get_jarak_baris()
+    self.width = arena.get_column_distance()
+    self.height = arena.get_row_distance()
     self.arena = arena
     arena.assign_member(self)
   
   def get_pos(self):
     return self.pos
   
-  def ubah_pos(self):
-    mamam_pos_x = rnd.randint(0, self.arena.get_jumlah_kolom() - 1)
-    mamam_pos_y = rnd.randint(0, self.arena.get_jumlah_baris() - 1)
-    self.pos = (mamam_pos_x, mamam_pos_y)
+  def change_pos(self):
+    food_pos_x = rnd.randint(0, self.arena.get_column_sum() - 1)
+    food_pos_y = rnd.randint(0, self.arena.get_row_sum() - 1)
+    self.pos = (food_pos_x, food_pos_y)
 
   def draw(self):
-    start_x = self.lebar * self.pos[0]
-    start_y = self.tinggi * self.pos[1]
-    pygame.draw.rect(self.surface, self.warna, (start_x, start_y, self.lebar, self.tinggi))
+    start_x = self.width * self.pos[0]
+    start_y = self.height * self.pos[1]
+    pygame.draw.rect(self.surface, self.color, (start_x, start_y, self.width, self.height))
 
   def __repr__(self):
-    return self.nama
+    return self.name

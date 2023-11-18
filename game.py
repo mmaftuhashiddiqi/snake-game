@@ -1,10 +1,10 @@
 import pygame
-from Game import Arena, Uler, Mamam, DBController
+from Game import Arena, Snake, Mamam, DBController
 
 # initialisasi game
 arena = Arena(500, 500, 20, 20)
-uler = Uler(arena, (10, 10), arah_x=1)
-mamam = Mamam(arena, nama="mamam")
+snake = Snake(arena, (10, 10), x_dir=1)
+mamam = Mamam(arena, name="mamam")
 
 # database
 database = DBController()
@@ -27,11 +27,11 @@ while isRun:
       isRun = False
   
   # update
-  uler.move()
+  snake.move()
 
-  if uler.is_collide():
+  if snake.is_collide():
     arena.reset_member()
-    uler.reset()
+    snake.reset()
     
     cursor.execute('SELECT score FROM leaderboard WHERE username=?', [user_active])
     high_score = cursor.fetchone()[0]
@@ -46,11 +46,11 @@ while isRun:
     score = 0
 
     # add mamam
-    mamam = Mamam(arena, nama="mamam")
+    mamam = Mamam(arena, name="mamam")
   
-  if uler.get_pos() == mamam.get_pos():
-    uler.tambah_kotak()
-    mamam.ubah_pos()
+  if snake.get_pos() == mamam.get_pos():
+    snake.add_box()
+    mamam.change_pos()
     # for speed incremet
     score += 1
     if score % 10 == 0:

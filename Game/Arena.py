@@ -2,18 +2,18 @@ import pygame
 
 class Arena():
 
-  def __init__(self, arena_lebar, arena_tinggi, jumlah_baris, jumlah_kolom):
+  def __init__(self, arena_width, arena_height, row_sum, column_sum):
     pygame.init()
-    self.arena_lebar = arena_lebar
-    self.arena_tinggi = arena_tinggi
-    self.jumlah_baris = jumlah_baris
-    self.jumlah_kolom = jumlah_kolom
-    self.jarak_baris = self.arena_lebar // self.jumlah_baris
-    self.jarak_kolom = self.arena_tinggi // self.jumlah_kolom
+    self.arena_width = arena_width
+    self.arena_height = arena_height
+    self.row_sum = row_sum
+    self.column_sum = column_sum
+    self.row_distance = self.arena_width // self.row_sum
+    self.column_distance = self.arena_height // self.column_sum
     self.clock = pygame.time.Clock()
     self.objects = []
   
-    self.surface = pygame.display.set_mode((self.arena_lebar, self.arena_tinggi))
+    self.surface = pygame.display.set_mode((self.arena_width, self.arena_height))
 
   def assign_member(self, member):
     self.objects.append(member)
@@ -24,27 +24,27 @@ class Arena():
   def get_surface(self):
     return self.surface
   
-  def get_jarak_baris(self):
-    return self.jarak_baris
+  def get_row_distance(self):
+    return self.row_distance
   
-  def get_jarak_kolom(self):
-    return self.jarak_kolom
+  def get_column_distance(self):
+    return self.column_distance
   
-  def get_jumlah_kolom(self):
-    return self.jumlah_kolom
+  def get_column_sum(self):
+    return self.column_sum
 
-  def get_jumlah_baris(self):
-    return self.jumlah_baris
+  def get_row_sum(self):
+    return self.row_sum
 
   def draw_grid(self):
-    for baris_ke in range(self.jumlah_baris):
-      x = self.jarak_baris * baris_ke
-      y = self.jarak_kolom * baris_ke
-      pygame.draw.line(self.surface, (0, 0, 0), (x, 0), (x, self.arena_tinggi))
-      pygame.draw.line(self.surface, (0, 0, 0), (0, y), (self.arena_lebar, y))
+    for row_to in range(self.row_sum):
+      x = self.row_distance * row_to
+      y = self.column_distance * row_to
+      pygame.draw.line(self.surface, (0, 0, 0), (x, 0), (x, self.arena_height))
+      pygame.draw.line(self.surface, (0, 0, 0), (0, y), (self.arena_width, y))
   
   def render(self, tick):
-    self.surface.fill((0, 18, 32)) # biar biru ygy
+    self.surface.fill((0, 18, 32)) # agar surface berwarna biru
     for obj in self.objects:
       obj.draw() # gambar objek-objeknya
 
