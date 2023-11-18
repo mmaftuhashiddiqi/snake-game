@@ -41,5 +41,5 @@ class Login:
     signup_label = customtkinter.CTkLabel(self.frame1, font=self.font3, text="Don't have an account yet?", text_color='#fff', bg_color='#001220')
     signup_label.place(x=230, y=260)
 
-    signup_button = customtkinter.CTkButton(self.frame1, command=Register(self.app).signup, font=self.font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
+    signup_button = customtkinter.CTkButton(self.frame1, command=Register.Register(self.app).signup, font=self.font4, text_color='#00bf77', text='Sign up', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
     signup_button.place(x=222, y=280)

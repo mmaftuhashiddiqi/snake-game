@@ -1,5 +1,6 @@
 {
   "editor.minimap.enabled": false,
+  "editor.wordWrap": "on",
   "workbench.colorTheme": "One Dark Pro Flat",
   "python.defaultInterpreterPath": "Env/bin/python"
 }

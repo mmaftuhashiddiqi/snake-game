@@ -44,5 +44,5 @@ class Register:
     login_label2 = customtkinter.CTkLabel(self.frame2, font=self.font3, text='Already have an account?', text_color='#fff', bg_color='#001220')
     login_label2.place(x=230, y=330)
     
-    login_button2 = customtkinter.CTkButton(self.frame2, command=Login(self.app).login, font=self.font4, text_color='#00bf77', text='Login', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
+    login_button2 = customtkinter.CTkButton(self.frame2, command=Login.Login(self.app).login, font=self.font4, text_color='#00bf77', text='Login', fg_color='#001220', hover_color='#001220', cursor='hand2', width=40)
     login_button2.place(x=395, y=330)
