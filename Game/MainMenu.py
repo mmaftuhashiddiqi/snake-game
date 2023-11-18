@@ -6,8 +6,8 @@ from Game import DBController
 
 class MainMenu:
   
-  def __init__(self, app):
-    
+  # inisialisasi atribut pada class MainMenu
+  def __init__(self, app):    
     self.app = app
     
     self.font1 = ('Helvetica', 25, 'bold')
@@ -17,12 +17,15 @@ class MainMenu:
     
     self.database = DBController()
   
+  # method untuk running game.py jika tombol Play Game ditekan
   def play_game(self):
     run(['python', 'game.py'])
 
+  # method untuk running leaderboard.py jika tombol Leaderboard ditekan
   def leaderboard(self):
     run(['python', 'leaderboard.py'])
   
+  # method untuk logout jika tombol Logout ditekan
   def logout(self):
     conn = self.database.get_conn()
     cursor = self.database.get_cursor()
@@ -30,6 +33,7 @@ class MainMenu:
     conn.commit()
     exit()
   
+  # method untuk memunculkan GUI main menu
   def main_menu(self):
     
     # main menu page

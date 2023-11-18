@@ -4,8 +4,8 @@ from Game import Authentication, Login
 
 class Register:
   
+  # inisialisasi atribut pada class Register
   def __init__(self, app):
-
     self.app = app
     
     self.font1 = ('Helvetica', 25, 'bold')
@@ -15,8 +15,8 @@ class Register:
 
     self.auth = Authentication()
 
+  # method untuk memunculkan GUI register
   def signup(self):
-    
     # frame1.destroy()
     frame = customtkinter.CTkFrame(self.app, bg_color='#001220', fg_color='#001220', width=470, height=400)
     frame.place(x=0, y=0)

@@ -6,6 +6,7 @@ class Snake():
   body = [] # kumpulan objek dari kotak-kotak
   dir_set = {} # key = posisi, valuenya = arah pergeraan
 
+  # inisialisasi atribut pada class Snake
   def __init__(self, arena, start, x_dir=1, y_dir=0, color=(0,150,93)):
     self.arena = arena
     self.start = start
@@ -15,9 +16,11 @@ class Snake():
     self.head = Box(arena, start, x_dir, y_dir, color, name="head")
     self.body.append(self.head)
 
+  # getter untuk posisi
   def get_pos(self):
     return self.head.get_pos()
   
+  # method untuk menambah kotak pada snake
   def add_box(self):
     tail = self.body[-1]
     tail_x_dir = tail.get_x_dir()
@@ -46,6 +49,7 @@ class Snake():
       new_tail = Box(self.arena, (tail_pos_x, tail_pos_y + 1), tail_x_dir, tail_y_dir)
       self.body.append(new_tail)
 
+  # method untuk reset panjang snake jika collide
   def reset(self):
     self.head = Box(self.arena, self.start, x_dir=1, color=self.color, name="head")
     self.body = []
@@ -54,6 +58,7 @@ class Snake():
     self.x_dir = 1
     self.y_dir = 0
 
+  # method untuk mengarahkan snake
   def move (self):
     keys = pygame.key.get_pressed()
 
@@ -87,6 +92,7 @@ class Snake():
       else:
         box.move(box.get_x_dir(), box.get_y_dir())
   
+  # method untuk mendeteksi collide (tabrakan)
   def is_collide(self):
     head_pos = self.head.get_pos()
     is_collide = False
@@ -97,6 +103,7 @@ class Snake():
 
     return is_collide
 
+  # method untuk terus merender atau menggambar ular
   def draw(self):
-    for anggota_body in self.body:
-      anggota_body.draw()
+    for body_member in self.body:
+      body_member.draw()

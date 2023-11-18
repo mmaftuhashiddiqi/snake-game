@@ -5,8 +5,8 @@ from Game import DBController
 
 class Leaderboard:
   
-  def __init__(self, app):
-    
+  # inisialisasi atribut pada class Leaderboard
+  def __init__(self, app):    
     self.app = app
     
     self.font1 = ('Helvetica', 25, 'bold')
@@ -16,8 +16,8 @@ class Leaderboard:
     
     self.database = DBController()
   
-  def leaderboard(self):
-    
+  # method untuk memunculkan GUI leaderboard
+  def leaderboard(self):    
     # frame for leaderboard
     frame = customtkinter.CTkScrollableFrame(self.app, bg_color='#001220', fg_color='#001220', width=470, height=400)
     frame.pack(padx=0, pady=0, anchor='center')

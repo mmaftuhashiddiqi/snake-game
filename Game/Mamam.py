@@ -3,6 +3,7 @@ from numpy import random as rnd
 
 class Mamam():
   
+  # inisialisasi atribut pada class Mamam
   def __init__(self, arena, color=(255, 0, 0), name="mamam"):
     self.name = name
     food_pos_x = rnd.randint(0, arena.get_column_sum() - 1) # mamam position
@@ -15,18 +16,22 @@ class Mamam():
     self.arena = arena
     arena.assign_member(self)
   
+  # getter untuk posisi
   def get_pos(self):
     return self.pos
   
+  # method untuk mengubah posisi makanan
   def change_pos(self):
     food_pos_x = rnd.randint(0, self.arena.get_column_sum() - 1)
     food_pos_y = rnd.randint(0, self.arena.get_row_sum() - 1)
     self.pos = (food_pos_x, food_pos_y)
 
+  # method untuk merender objek makanan
   def draw(self):
     start_x = self.width * self.pos[0]
     start_y = self.height * self.pos[1]
     pygame.draw.rect(self.surface, self.color, (start_x, start_y, self.width, self.height))
 
+  # memberikan representasi string
   def __repr__(self):
     return self.name

@@ -1,7 +1,7 @@
 import pygame
 from Game import Arena, Snake, Mamam, DBController
 
-# initialisasi game
+# inisialisasi game
 arena = Arena(500, 500, 20, 20)
 snake = Snake(arena, (10, 10), x_dir=1)
 mamam = Mamam(arena, name="mamam")
@@ -29,6 +29,7 @@ while isRun:
   # update
   snake.move()
 
+  # mendeteksi tabrakan (collide)
   if snake.is_collide():
     arena.reset_member()
     snake.reset()
@@ -36,8 +37,8 @@ while isRun:
     cursor.execute('SELECT score FROM leaderboard WHERE username=?', [user_active])
     high_score = cursor.fetchone()[0]
 
+    # update score jika kondisi terpenuhi
     if high_score == None or score > high_score:
-      # update score
       cursor.execute('UPDATE leaderboard SET score=? WHERE username=?', [score, user_active])
       conn.commit()
     
@@ -51,13 +52,13 @@ while isRun:
   if snake.get_pos() == mamam.get_pos():
     snake.add_box()
     mamam.change_pos()
-    # for speed incremet
+    # speed incremet
     score += 1
     if score % 10 == 0:
       # adding tick
       tick += 1  
 
   # render
-  arena.render(tick) # bikin grid nyee yee, parameter for speed
+  arena.render(tick)
 
 pygame.quit()
