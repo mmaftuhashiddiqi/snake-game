@@ -21,6 +21,6 @@ Project ini dibuat untuk memenuhi project individu mata kuliah Pemrograman Beror
   > python login-register.py
 
   atau dengan cara yang lainnya.
-- Jika file yang lain seperti main-menu.py dan game.py langsung dijalankan tanpa melaluilogin-register.py maka kemungkinan akan error.
+- Jika file yang lain seperti main-menu.py dan game.py langsung dijalankan tanpa melalui login-register.py maka kemungkinan akan error.
 
 Sekian, Terima Gaji.
