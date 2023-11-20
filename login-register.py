@@ -1,5 +1,5 @@
 import customtkinter
-from Game import Login
+from Classes import Login
 
 # inisiasi surface/GUI
 app = customtkinter.CTk()

@@ -1,4 +1,4 @@
-from Game import Box
+from Classes import Box
 import pygame
 
 class Snake():

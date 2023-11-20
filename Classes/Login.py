@@ -1,6 +1,7 @@
 import customtkinter
 from tkinter import *
-from Game import Authentication, Register
+from PIL import Image, ImageTk
+from Classes import Authentication, Register
 
 class Login:
   
@@ -18,10 +19,10 @@ class Login:
   # method untuk memunculkan GUI login
   def login(self):
     # frame2.destroy()
-    frame = customtkinter.CTkFrame(self.app, bg_color='#001220', fg_color='#001220', width=470, height=400)
+    frame = customtkinter.CTkFrame(self.app, bg_color='#001220', fg_color='#001220', width=450, height=400)
     frame.place(x=0, y=0)
     
-    image1 = PhotoImage(file='img/bg2.png')
+    image1 = ImageTk.PhotoImage(Image.open('img/bg2.png').resize((210, 400)))
     image1_label = Label(frame, image=image1, bg='#001220')
     image1_label.place(x=0, y=0)
     frame.image1 = image1

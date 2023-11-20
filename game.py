@@ -1,5 +1,5 @@
 import pygame
-from Game import Arena, Snake, Mamam, DBController
+from Classes import Arena, Snake, Mamam, DBController
 
 # inisialisasi game
 arena = Arena(500, 500, 20, 20)

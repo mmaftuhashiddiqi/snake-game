@@ -1,7 +1,7 @@
 import customtkinter
 from tkinter import *
 from sys import exit
-from Game import DBController
+from Classes import DBController
 
 class Leaderboard:
   
@@ -19,7 +19,7 @@ class Leaderboard:
   # method untuk memunculkan GUI leaderboard
   def leaderboard(self):    
     # frame for leaderboard
-    frame = customtkinter.CTkScrollableFrame(self.app, bg_color='#001220', fg_color='#001220', width=470, height=400)
+    frame = customtkinter.CTkScrollableFrame(self.app, bg_color='#001220', fg_color='#001220', width=450, height=400)
     frame.pack(padx=0, pady=0, anchor='center')
 
     # leaderboard label

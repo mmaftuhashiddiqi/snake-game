@@ -1,5 +1,5 @@
 import customtkinter
-from Game import Leaderboard
+from Classes import Leaderboard
 
 # inisiasi surface/GUI
 app = customtkinter.CTk()

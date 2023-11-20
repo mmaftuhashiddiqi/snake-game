@@ -1,8 +1,9 @@
 import customtkinter
 from tkinter import *
+from PIL import ImageTk, Image
 from subprocess import run
 from sys import exit
-from Game import DBController
+from Classes import DBController
 
 class MainMenu:
   
@@ -37,10 +38,10 @@ class MainMenu:
   def main_menu(self):
     
     # main menu page
-    frame = customtkinter.CTkFrame(self.app, bg_color='#001220', fg_color='#001220', width=470, height=400)
+    frame = customtkinter.CTkFrame(self.app, bg_color='#001220', fg_color='#001220', width=450, height=400)
     frame.place(x=0, y=0)
 
-    image = PhotoImage(file='img/bg2.png')
+    image = ImageTk.PhotoImage(Image.open('img/bg2.png').resize((210, 400)))
     image_label = Label(frame, image=image, bg='#001220')
     image_label.place(x=0, y=0)
     frame.image = image

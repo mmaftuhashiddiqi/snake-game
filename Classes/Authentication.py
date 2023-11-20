@@ -1,7 +1,7 @@
 import bcrypt
 from tkinter import messagebox
 from subprocess import run
-from Game import DBController
+from Classes import DBController
 
 class Authentication:
   
