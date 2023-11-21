@@ -1,5 +1,4 @@
 import customtkinter
-from tkinter import *
 from PIL import Image
 from sys import exit
 from Classes import DBController

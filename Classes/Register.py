@@ -1,5 +1,4 @@
 import customtkinter
-from tkinter import *
 from PIL import Image
 from Classes import Authentication, Login
 
