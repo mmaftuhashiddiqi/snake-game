@@ -1,6 +1,6 @@
 import customtkinter
 from tkinter import *
-from PIL import ImageTk, Image
+from PIL import Image
 from subprocess import run
 from sys import exit
 from Classes import DBController
@@ -39,8 +39,8 @@ class MainMenu:
     frame = customtkinter.CTkFrame(self.app, bg_color='#001220', fg_color='#001220', width=450, height=400)
     frame.place(x=0, y=0)
 
-    image = ImageTk.PhotoImage(Image.open('img/bg2.png').resize((205, 400)))
-    image_label = Label(frame, image=image, bg='#001220')
+    image = customtkinter.CTkImage(light_image=Image.open("img/bg2.png"), dark_image=Image.open("img/bg2.png"), size=(205, 400))
+    image_label = customtkinter.CTkLabel(frame, image=image, bg_color='#001220', text='')
     image_label.place(x=0, y=0)
     frame.image = image
 

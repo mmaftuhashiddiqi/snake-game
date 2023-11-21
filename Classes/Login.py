@@ -1,6 +1,6 @@
 import customtkinter
 from tkinter import *
-from PIL import Image, ImageTk
+from PIL import Image
 from Classes import Authentication, Register
 
 class Login:
@@ -21,10 +21,10 @@ class Login:
     frame = customtkinter.CTkFrame(self.app, bg_color='#001220', fg_color='#001220', width=450, height=400)
     frame.place(x=0, y=0)
     
-    image1 = ImageTk.PhotoImage(Image.open('img/bg2.png').resize((205, 400)))
-    image1_label = Label(frame, image=image1, bg='#001220')
-    image1_label.place(x=0, y=0)
-    frame.image1 = image1
+    image = customtkinter.CTkImage(light_image=Image.open("img/bg2.png"), dark_image=Image.open("img/bg2.png"), size=(205, 400))
+    image_label = customtkinter.CTkLabel(frame, image=image, bg_color='#001220', text='')
+    image_label.place(x=0, y=0)
+    frame.image = image
 
     login_label = customtkinter.CTkLabel(frame, font=self.font1, text='Login', text_color='#fff', bg_color='#001220')
     login_label.place(x=290, y=20)
