@@ -16,6 +16,8 @@ class Snake():
     self.head = Box(arena, start, x_dir, y_dir, color, name="head")
     self.body.append(self.head)
 
+    self.isPause = False
+
   # getter untuk posisi
   def get_pos(self):
     return self.head.get_pos()
@@ -62,36 +64,43 @@ class Snake():
   def move (self):
     keys = pygame.key.get_pressed()
 
-    # keys direction
-    if keys[pygame.K_RIGHT]:
-      self.x_dir = 1
-      self.y_dir = 0
-      self.dir_set[self.head.pos] = [self.x_dir, self.y_dir]
-    elif keys[pygame.K_LEFT]:
-      self.x_dir = -1
-      self.y_dir = 0
-      self.dir_set[self.head.pos] = [self.x_dir, self.y_dir]
-    elif keys[pygame.K_UP]:
-      self.y_dir = -1
-      self.x_dir = 0
-      self.dir_set[self.head.pos] = [self.x_dir, self.y_dir]
-    elif keys[pygame.K_DOWN]:
-      self.y_dir = 1
-      self.x_dir = 0
-      self.dir_set[self.head.pos] = [self.x_dir, self.y_dir]
+    if keys[pygame.K_SPACE]:
+      self.isPause = not self.isPause
 
-    for index, box in enumerate(self.body):
-      box_pos = box.get_pos()
-      if box_pos in self.dir_set:
-        arah = self.dir_set[box_pos]
-        x_dir = arah[0]
-        y_dir = arah[1]
-        box.move(x_dir, y_dir)
-        if index == len(self.body) - 1:
-          self.dir_set.pop(box_pos)
-      else:
-        box.move(box.get_x_dir(), box.get_y_dir())
-  
+    # jika isPause = True -> pause
+    if self.isPause:
+      pass
+    # jika isPause = False -> unpause
+    else:
+      if keys[pygame.K_RIGHT]:
+        self.x_dir = 1
+        self.y_dir = 0
+        self.dir_set[self.head.pos] = [self.x_dir, self.y_dir]
+      elif keys[pygame.K_LEFT]:
+        self.x_dir = -1
+        self.y_dir = 0
+        self.dir_set[self.head.pos] = [self.x_dir, self.y_dir]
+      elif keys[pygame.K_UP]:
+        self.y_dir = -1
+        self.x_dir = 0
+        self.dir_set[self.head.pos] = [self.x_dir, self.y_dir]
+      elif keys[pygame.K_DOWN]:
+        self.y_dir = 1
+        self.x_dir = 0
+        self.dir_set[self.head.pos] = [self.x_dir, self.y_dir]
+
+      for index, box in enumerate(self.body):
+        box_pos = box.get_pos()
+        if box_pos in self.dir_set:
+          arah = self.dir_set[box_pos]
+          x_dir = arah[0]
+          y_dir = arah[1]
+          box.move(x_dir, y_dir)
+          if index == len(self.body) - 1:
+            self.dir_set.pop(box_pos)
+        else:
+          box.move(box.get_x_dir(), box.get_y_dir())
+
   # method untuk mendeteksi collide (tabrakan)
   def is_collide(self):
     head_pos = self.head.get_pos()

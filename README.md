@@ -7,9 +7,10 @@ Project ini dibuat untuk memenuhi project individu mata kuliah Pemrograman Beror
 ## Requiring Package
 
 - pygame
-- numpy
-- tkinter
 - customtkinter
+- tkinter
+- pillow
+- numpy
 - bcrypt
 - sqlite3
 
